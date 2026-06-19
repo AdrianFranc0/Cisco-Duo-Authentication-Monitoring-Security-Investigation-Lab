@@ -100,14 +100,13 @@ An access review was performed to identify potential privilege creep within the 
 
 Privilege creep occurs when users retain permissions, access, or group memberships from previous roles after transitioning to a different department or job function.
 
-During this review, a user who had transitioned from an IT role to a Payroll role was examined. Although the user's organizational placement had changed, legacy IT-related access assignments remained present.
-
+During this review, a user who had transitioned from an IT role to a Payroll role was examined. Although the user's organizational placement had changed, previous IT-related access assignments remained present. This included Active Directory group memberships that synced over to Duo, leaving the user mistakenly bound to privileged Duo groups and access policies intended only for IT personnel.
 The account was also reviewed within Duo to verify that the user remained active and capable of authenticating into protected systems.
 
 ### Investigation Questions
 
 - Does the user still require privileged access?
-- Are current permissions aligned with the user's current role?
+- Are current permissions aligned with the user's current role and the way they authenticate?
 - Were legacy permissions removed following role transition?
 - Does the account remain active and capable of authentication?
 
@@ -125,7 +124,7 @@ Privilege Creep Review - Active Directory<br/>
 </p>
 
 <p align="center">
-Privilege Creep Review - Duo Authentication Status<br/>
+Privilege Creep Review - Duo Authentication Status = user is still authenticating and active<br/>
 <img src="https://i.imgur.com/ssWJhQt.png" width="800" style="height:auto;" alt="Privilege creep review in Duo"/>
 <br /><br />
 </p>
