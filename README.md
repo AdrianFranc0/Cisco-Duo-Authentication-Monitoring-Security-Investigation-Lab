@@ -167,42 +167,180 @@ The Open Web Application Security Project (OWASP) Top 10 highlights **Identifica
 
 ---
 
-# Progress Update
+## Control 1 – Access Governance Policy
 
-### Completed
+**Description:**
 
-✅ Cisco Duo MFA deployment validation
+Following the privilege creep investigation, an access governance control was implemented to prevent authentication attempts from accounts undergoing access review.
 
-✅ Authentication log review and analysis
+A dedicated Active Directory security group named **Restricted-Users** was used to simulate a user review process. Accounts placed into this group represent users whose permissions require validation due to role changes, department transfers, or other identity and access management concerns.
 
-✅ MFA fatigue investigation
-
-✅ Privilege creep access review
-
-✅ Authentication activity assessment
-
-✅ Identity and access management review
+<p align="center">
+User Assigned to Restricted Users Group<br/>
+<img src="https://i.imgur.com/MXJszmM.png" width="800" style="height:auto;" alt="User assigned to Restricted Users group"/>
+<br /><br />
+</p>
 
 ---
 
-### Upcoming
+### Restricted Users Group Added to Duo
 
-🔄 Security control implementation and validation
+**Description:**
 
-🔄 Access restriction policy enforcement
+To support centralized authentication governance, a corresponding **Restricted-Users** group was created within Duo. This allows security administrators to apply authentication controls to users undergoing access reviews.
 
-🔄 Authentication monitoring improvements
-
-🔄 MFA fatigue mitigation recommendations
-
-🔄 Security control validation testing
-
-🔄 Final findings and remediation recommendations
+<p align="center">
+Restricted Users Group Added to Duo<br/>
+<img src="https://i.imgur.com/hHQgbET.png" width="800" style="height:auto;" alt="Restricted Users group added to Duo"/>
+<br /><br />
+</p>
 
 ---
 
-# Summary
+### Access Review Policy Implementation
 
-This project demonstrates how authentication activity and access reviews can be used to identify potential security risks within an identity management environment.
+**Description:**
 
-By reviewing authentication behavior and user access assignments, organizations can improve visibility into authentication activity, reduce unnecessary privileges, and strengthen overall identity security controls.
+A Duo policy named **Restricted Users Policy** was created and assigned to the Restricted Users group.
+
+This policy was designed to prevent authentication attempts while user access requirements were reviewed. Implementing temporary authentication restrictions helps reduce the risk of unauthorized access resulting from privilege creep or stale permissions.
+
+<p align="center">
+Restricted Users Policy Configuration<br/>
+<img src="https://i.imgur.com/zVxS8FY.png" width="800" style="height:auto;" alt="Restricted Users policy configuration"/>
+<br /><br />
+</p>
+
+---
+
+### Control Validation
+
+**Description:**
+
+After assigning the test user to the Restricted Users group and applying the associated Duo policy, authentication testing was performed.
+
+The authentication attempt was successfully denied, confirming that the implemented control prevented access while the account remained under review.
+
+This validation demonstrates how access governance controls can be used to reduce risk associated with privilege creep and excessive permissions.
+
+<p align="center">
+Authentication Denied Validation<br/>
+<img src="https://i.imgur.com/wayz7Y5.png" width="800" style="height:auto;" alt="Authentication denied after policy enforcement"/>
+<br /><br />
+</p>
+
+---
+
+## Control 2 – Authentication Monitoring & MFA Fatigue Mitigation
+
+**Description:**
+
+During authentication log review, multiple denied Duo Push requests followed by a successful approval were observed.
+
+While intentionally generated within the lab environment, similar patterns may be associated with MFA fatigue attacks, where repeated authentication prompts are sent in an attempt to obtain an accidental approval from a user.
+
+Authentication monitoring provides security teams with visibility into user activity, authentication methods, timestamps, devices, and geographic information, allowing investigators to identify unusual authentication patterns and determine whether additional investigation is required.
+
+<p align="center">
+Authentication Monitoring and Log Review<br/>
+<img src="https://i.imgur.com/kbamgFU.png" width="800" style="height:auto;" alt="Authentication monitoring and MFA fatigue indicators"/>
+<br /><br />
+</p>
+
+---
+
+### Recommended Control A – Authentication Threshold Monitoring
+
+**Description:**
+
+Organizations should establish monitoring thresholds for repeated authentication failures and abnormal authentication activity.
+
+Repeated denied authentication requests occurring within a short timeframe may indicate MFA fatigue attempts, user confusion, or other authentication-related security concerns.
+
+Example review criteria:
+
+```text
+5 denied authentication requests
+within 10 minutes
+=
+Security Review Required
+```
+
+Monitoring authentication thresholds helps security teams identify patterns commonly associated with MFA fatigue attacks and other authentication-related threats.
+
+---
+
+### Recommended Control B – Geographic & Location Review
+
+**Description:**
+
+Authentication events should be reviewed for geographic anomalies that may indicate unauthorized access attempts.
+
+Examples include:
+
+- Foreign country logins
+- Impossible travel scenarios
+- Anonymous VPN or proxy usage
+- Unrecognized locations
+- Unexpected authentication patterns
+
+Location analysis provides additional context during authentication investigations and assists security teams in validating user identity and access activity.
+
+---
+
+## Control 3 – Identity Lifecycle Management & Directory Synchronization
+
+**Description:**
+
+The privilege creep investigation identified a user who had transitioned from one department to another while still retaining access associated with a previous role.
+
+This highlights the importance of identity lifecycle management processes and ongoing access reviews to ensure permissions remain aligned with current job responsibilities.
+
+As part of the remediation process, Active Directory synchronization with Duo was evaluated as a method for improving identity lifecycle management.
+
+Synchronizing user accounts, group memberships, and account status information between Active Directory and Duo helps ensure authentication policies remain aligned with the organization's identity source of truth.
+
+Potential benefits include:
+
+- Automatic synchronization of user accounts
+- Group membership synchronization
+- Faster removal of access during employee transfers
+- Reduced risk of stale accounts
+- Reduced risk of privilege creep
+- Improved consistency between identity systems
+
+---
+
+# ✅ Project Outcome
+
+This project demonstrated how authentication logs, identity systems, and access governance controls can be used together to identify, investigate, and remediate authentication and authorization risks.
+
+Key concepts demonstrated:
+
+- MFA Fatigue Detection
+- Authentication Monitoring
+- Privilege Creep Investigation
+- Access Governance Controls
+- Identity Lifecycle Management
+- Security Control Validation
+- Authentication Policy Enforcement
+- Identity & Access Management (IAM)
+
+---
+
+# 🎯 Skills Demonstrated
+
+- Identity & Access Management (IAM)
+- Authentication Monitoring
+- Multi-Factor Authentication (MFA)
+- Access Governance
+- Privilege Management
+- Security Operations
+- Security Investigations
+- Identity Lifecycle Management
+- Active Directory
+- Cisco Duo Administration
+- Authentication Policy Enforcement
+- Security Control Validation
+- Security Compliance Concepts
+
